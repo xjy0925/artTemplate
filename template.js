@@ -272,23 +272,14 @@ var _compile = (function () {
         }
     };
 
-
-    var arrayforEach = Array.prototype.forEach || function (block, thisObject) {
-        var len = this.length >>> 0;
-        
-        for (var i = 0; i < len; i++) {
-            if (i in this) {
-                block.call(thisObject, this[i], i, this);
-            }
-        }
-        
-    };
-
-
     // 数组迭代
-    var forEach = function (array, callback) {
-        arrayforEach.call(array, callback);
-    };
+    var forEach  = Array.prototype.forEach ? function(arr, fn) {
+        arr.forEach(fn);
+    }: function (arr, fn) {
+        for (var i = 0; i < arr.length; i++) {
+            fn.call(null, arr[i], i, arr);
+        }
+	   }
 
 
     // 静态分析模板变量
